@@ -26,9 +26,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/api/", entitiesRouter);
-
-console.log(process.env.MONGOLAB_BROWN_URI);
-
 mongoose
   .connect(process.env.MONGOLAB_BROWN_URI || `mongodb://127.0.0.1:27017/rnc`, {
     useNewUrlParser: true,
