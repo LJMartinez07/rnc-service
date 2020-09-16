@@ -1,4 +1,5 @@
 var createError = require("http-errors");
+require("dotenv").config();
 var express = require("express");
 var path = require("path");
 const cron = require("node-cron");
@@ -7,6 +8,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var entitiesRouter = require("./routes/entities");
+
 // var usersRouter = require("./routes/users");
 var app = express();
 
