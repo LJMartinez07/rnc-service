@@ -6,7 +6,8 @@ const mongoose = require("mongoose");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+var entitiesRouter = require("./routes/entities");
+// var usersRouter = require("./routes/users");
 var app = express();
 
 const rncService = require("./services/rncService");
@@ -22,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/api/", entitiesRouter);
 
 mongoose
   .connect(`mongodb://127.0.0.1:27017/rnc`, {

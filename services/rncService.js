@@ -1,7 +1,7 @@
 const request = require("request");
 const StreamZip = require("node-stream-zip");
 const fs = require("fs");
-const rnc = require("../models/rnc.model");
+const entityModel = require("../models/entity.model");
 const readline = require("readline");
 class rncService {
   constructor() {
@@ -20,7 +20,7 @@ class rncService {
       });
       for await (const line of rl) {
         var res = line.split("|");
-        const rncM = await rnc.updateOne(
+        const entity = await entityModel.updateOne(
           {
             rnc: res[0].toString(),
           },
@@ -58,7 +58,7 @@ class rncService {
   }
 
   async extractFile() {
-    return Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       try {
         console.log("extract zip");
         this.zip = new StreamZip({
