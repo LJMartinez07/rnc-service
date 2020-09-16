@@ -2,6 +2,7 @@ var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 const cron = require("node-cron");
+const mongoose = require("mongoose");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var indexRouter = require("./routes/index");
@@ -22,7 +23,19 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-rncService.readFile();
+
+mongoose
+  .connect(`mongodb://127.0.0.1:27017/rnc`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    rncService.readFile();
+  })
+  .catch((err) => console.log(err));
+
 // cron.schedule("* * * * *", async function () {
 //   try {
 //     //  rncService.getRncZip();

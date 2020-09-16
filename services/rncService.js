@@ -1,6 +1,7 @@
 const request = require("request");
 const StreamZip = require("node-stream-zip");
 const fs = require("fs");
+const rnc = require("../models/rnc.model");
 const readline = require("readline");
 class rncService {
   constructor() {
@@ -19,20 +20,28 @@ class rncService {
       });
       // Note: we use the crlfDelay option to recognize all instances of CR LF
       // ('\r\n') in input.txt as a single line break.
-
       for await (const line of rl) {
         var res = line.split("|");
-        console.log(res);
-        // Each line in input.txt will be successively available here as `line`.
-        // console.log(`${line}`);
-        return 0;
-      }
 
-      // fs.readFile(this.public + "DGII_RNC.TXT", "utf8", function (err, data) {
-      //   if (err) throw err;
-      //   console.log(data);
-      // });
-    } catch (e) {}
+        const rncM = await rnc.updateOne(
+          {
+            rnc: res[0].toString(),
+          },
+          {
+            $set: {
+              nombre: res[1],
+              nombre_comercial: res[2],
+              actividad_economica: res[3],
+              regimen_de_pagos: res[10],
+              estado: res[9],
+            },
+          },
+          { upsert: true }
+        );
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async getRncZip() {
