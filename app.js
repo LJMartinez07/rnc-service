@@ -31,6 +31,17 @@ cron.schedule("* * * * *", function () {
       .pipe(fs.createWriteStream(output))
       .on("close", function () {
         console.log("File written!");
+        const zip = new StreamZip({
+          file: output,
+          storeEntries: true,
+        });
+        zip.on("ready", () => {
+          fs.mkdirSync("extracted");
+          zip.extract("TMP/DGII_RNC.TXT", "public/", (err) => {
+            console.log(err ? "Extract error" : "Extracted");
+            zip.close();
+          });
+        });
       });
   } catch (e) {
     console.log(e);
