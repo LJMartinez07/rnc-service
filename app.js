@@ -22,15 +22,15 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-
-cron.schedule("* * * * *", async function () {
-  try {
-    //  rncService.getRncZip();
-    rncService.extractFile();
-  } catch (e) {
-    console.log(e);
-  }
-});
+rncService.readFile();
+// cron.schedule("* * * * *", async function () {
+//   try {
+//     //  rncService.getRncZip();
+//     rncService.extractFile();
+//   } catch (e) {
+//     console.log(e);
+//   }
+// });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
