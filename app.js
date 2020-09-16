@@ -1,6 +1,7 @@
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
+const cron = require("node-cron");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
@@ -21,6 +22,10 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+
+cron.schedule("* * * * *", function () {
+  console.log("running a task every minute");
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
