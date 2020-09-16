@@ -4,10 +4,11 @@ var path = require("path");
 const cron = require("node-cron");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
+const request = require("request");
+const fs = require("fs");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-
+const StreamZip = require("node-stream-zip");
 var app = express();
 
 // view engine setup
@@ -24,7 +25,16 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
 cron.schedule("* * * * *", function () {
-  console.log("running a task every minute");
+  try {
+    var output = "public/DGII_RNC.zip";
+    request("http://dgii.gov.do/app/WebApps/Consultas/RNC/DGII_RNC.zip")
+      .pipe(fs.createWriteStream(output))
+      .on("close", function () {
+        console.log("File written!");
+      });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 // catch 404 and forward to error handler
