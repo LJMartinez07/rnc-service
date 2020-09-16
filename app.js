@@ -4,13 +4,12 @@ var path = require("path");
 const cron = require("node-cron");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const request = require("request");
-const fs = require("fs");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-const StreamZip = require("node-stream-zip");
 var app = express();
 
+const rncService = require("./services/rncService");
+// const service = new rncService();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
@@ -24,25 +23,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
-cron.schedule("* * * * *", function () {
+cron.schedule("* * * * *", async function () {
   try {
-    var output = "public/DGII_RNC.zip";
-    request("http://dgii.gov.do/app/WebApps/Consultas/RNC/DGII_RNC.zip")
-      .pipe(fs.createWriteStream(output))
-      .on("close", function () {
-        console.log("File written!");
-        const zip = new StreamZip({
-          file: output,
-          storeEntries: true,
-        });
-        zip.on("ready", () => {
-          fs.mkdirSync("extracted");
-          zip.extract("TMP/DGII_RNC.TXT", "public/", (err) => {
-            console.log(err ? "Extract error" : "Extracted");
-            zip.close();
-          });
-        });
-      });
+    //  rncService.getRncZip();
+    rncService.extractFile();
   } catch (e) {
     console.log(e);
   }
