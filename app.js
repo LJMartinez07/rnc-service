@@ -31,19 +31,20 @@ mongoose
     useCreateIndex: true,
     useFindAndModify: false,
   })
-  .then(() => {
-    rncService.readFile();
+  .then(async () => {
+    // cron.schedule("* * * * *", async function () {
+    try {
+      rncService.getRncZip().then(() => {
+        rncService.extractFile().then(() => {
+          rncService.readFile();
+        });
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // });
   })
   .catch((err) => console.log(err));
-
-// cron.schedule("* * * * *", async function () {
-//   try {
-//     //  rncService.getRncZip();
-//     rncService.extractFile();
-//   } catch (e) {
-//     console.log(e);
-//   }
-// });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

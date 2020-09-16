@@ -18,11 +18,8 @@ class rncService {
         input: fileStream,
         crlfDelay: Infinity,
       });
-      // Note: we use the crlfDelay option to recognize all instances of CR LF
-      // ('\r\n') in input.txt as a single line break.
       for await (const line of rl) {
         var res = line.split("|");
-
         const rncM = await rnc.updateOne(
           {
             rnc: res[0].toString(),
@@ -44,36 +41,41 @@ class rncService {
     }
   }
 
-  async getRncZip() {
-    try {
-      request(this.url)
-        .pipe(fs.createWriteStream(this.output))
-        .on("close", function () {
-          console.log("File written!");
-          return Promise.resolve;
-          true;
+  getRncZip() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        console.log("getting zip");
+        let response = await request(this.url);
+        response = await response.pipe(fs.createWriteStream(this.output));
+        response.on("close", function () {
+          console.log("success zip");
+          resolve(true); // ¡Todo salió bien!
         });
-      return Promise.reject(false);
-    } catch (e) {
-      console.error(e);
-    }
+      } catch (e) {
+        reject(false);
+      }
+    });
   }
 
   async extractFile() {
-    try {
-      this.zip = new StreamZip({
-        file: this.output,
-        storeEntries: true,
-      });
-      this.zip.on("ready", () => {
-        this.zip.extract("TMP/DGII_RNC.TXT", this.public, (err) => {
-          console.log(err ? "Extract error" : "Extracted");
-          this.zip.close();
+    return Promise((resolve, reject) => {
+      try {
+        console.log("extract zip");
+        this.zip = new StreamZip({
+          file: this.output,
+          storeEntries: true,
         });
-      });
-    } catch (e) {
-      console.error(e);
-    }
+        this.zip.on("ready", () => {
+          this.zip.extract("TMP/DGII_RNC.TXT", this.public, (err) => {
+            console.log(err ? "Extract error" : "Extracted");
+            resolve(true);
+            this.zip.close();
+          });
+        });
+      } catch (e) {
+        reject(false);
+      }
+    });
   }
 }
 
