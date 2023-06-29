@@ -47,8 +47,8 @@ class rncService {
         console.log("getting zip");
         let response = await request(this.url);
         response = await response.pipe(fs.createWriteStream(this.output));
-        response.on("close", function () {
-          console.log("success zip");
+        response.on("close", async function () {
+          console.log("success getting zip");
           resolve(true); // ¡Todo salió bien!
         });
       } catch (e) {

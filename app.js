@@ -13,6 +13,7 @@ var entitiesRouter = require("./routes/entities");
 var app = express();
 
 const rncService = require("./services/rncService");
+const { async } = require("node-stream-zip");
 // const service = new rncService();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -26,25 +27,29 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/api/", entitiesRouter);
+
+const init = async () => {
+  rncService.getRncZip().then(() => {
+    rncService.extractFile().then(() => {
+      rncService.readFile();
+    });
+  });
+}
+
 mongoose
   .connect(process.env.MONGOLAB_BROWN_URI || `mongodb://127.0.0.1:27017/rnc`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
   })
   .then(async () => {
-    // cron.schedule("* * * * *", async function () {
-    try {
-      rncService.getRncZip().then(() => {
-        rncService.extractFile().then(() => {
-          rncService.readFile();
-        });
-      });
-    } catch (e) {
-      console.log(e);
-    }
-    // });
+    init()
+    cron.schedule("0 1 * * *", async function () {
+      try {
+        init()
+      } catch (e) {
+        console.log(e);
+      }
+    });
   })
   .catch((err) => console.log(err));
 
