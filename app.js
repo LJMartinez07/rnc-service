@@ -7,15 +7,13 @@ const mongoose = require("mongoose");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var indexRouter = require("./routes/index");
-var entitiesRouter = require("./routes/entities");
+var entitiesRouter = require("./routes/v1/entities");
+var entitiesV2Router = require("./routes/v2/entities");
 
-// var usersRouter = require("./routes/users");
 var app = express();
 
 const rncService = require("./services/rncService");
-const { async } = require("node-stream-zip");
-// const service = new rncService();
-// view engine setup
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
@@ -27,6 +25,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/api/", entitiesRouter);
+app.use("/api/v2/", entitiesV2Router);
 
 const init = async () => {
   rncService.getRncZip().then(() => {

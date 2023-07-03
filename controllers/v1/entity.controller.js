@@ -1,4 +1,4 @@
-const entityModel = require("../models/entity.model");
+const entityModel = require("../../models/entity.model");
 
 class entityController {
   async index(req, res) {
