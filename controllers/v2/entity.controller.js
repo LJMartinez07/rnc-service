@@ -5,9 +5,6 @@ class entityController {
     try {
 
        const entities = await entityModel.paginate(...new PaginationParameters(req).get())
-        
-
-    
        return res.status(200).send({code: 200, data: entities})
        
     } catch (e) {
