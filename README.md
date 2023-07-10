@@ -1,4 +1,4 @@
-### Installation and Configuration
+### Instalación y Configuración
 
 - Clona el repository
 
