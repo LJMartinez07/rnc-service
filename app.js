@@ -12,7 +12,7 @@ var entitiesV2Router = require("./routes/v2/entities");
 
 var app = express();
 
-const rncService = require("./services/rncService");
+const RNCService = require("./services/rnc.service");
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
@@ -28,9 +28,9 @@ app.use("/api/", entitiesRouter);
 app.use("/api/v2/", entitiesV2Router);
 
 const init = async () => {
-  rncService.getRncZip().then(() => {
-    rncService.extractFile().then(() => {
-      rncService.readFile();
+  RNCService.getRncZip().then(() => {
+    RNCService.extractFile().then(() => {
+      RNCService.readFile();
     });
   });
 }

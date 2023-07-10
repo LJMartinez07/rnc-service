@@ -4,7 +4,7 @@ const fs = require("fs");
 const { ObjectId } = require('mongodb');
 const entityModel = require("../models/entity.model");
 const readline = require("readline");
-class rncService {
+class RNCService {
   constructor() {
     this.url = "http://dgii.gov.do/app/WebApps/Consultas/RNC/DGII_RNC.zip";
     this.public = "public/";
@@ -100,4 +100,4 @@ class rncService {
   }
 }
 
-module.exports = new rncService();
+module.exports = new RNCService();
