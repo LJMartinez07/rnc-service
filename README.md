@@ -1,26 +1,26 @@
 ### Installation and Configuration
 
-- Clone repository
+- Clona el repository
 
 ```
 git clone https://github.com/LJMartinez07/rnc-service.git
 ```
 
-- Run in your terminal
+- Ejecuta el siguiente commando en tu terminal
 
 ```
 npm install or yarn install
 ```
 
-- Copy `.env.example` file to `.env`
+- Copia el archivo `.env.example` a `.env`
 
-- Setup app in `.env` file
+- Configura la app en el archivo `.env`
 
 ```
 PORT=3000
 ```
 
-- Setup database connection in `.env` file
+- Configura la base de datos en el archivo `.env`
 
 ```
 MONGOLAB_BROWN_URI=mongodb://127.0.0.1:27017/rnc
@@ -32,7 +32,7 @@ MONGOLAB_BROWN_URI=mongodb://127.0.0.1:27017/rnc
  GET / https://rnc.luismtnez.com/api/entities/:el_rnc_a_verificar
 ```
 
-List all the RNC with the version 2 of the API
+Lista todos los RNC en la version 2 de la API
 
 ```
 query = {
@@ -45,4 +45,4 @@ query = {
  GET / https://rnc.luismtnez.com/api/v2/entities
 ```
 
-Note: req.query.projection and req.query.query have to be valid JSON.
+NOTA: req.query.projection y req.query.query Deben de ser un JSON valido.
