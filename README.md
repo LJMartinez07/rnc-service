@@ -6,7 +6,7 @@
 git clone https://github.com/LJMartinez07/rnc-service.git
 ```
 
-- Ejecuta el siguiente commando en tu terminal
+- Ejecuta el siguiente comando en tu terminal
 
 ```
 npm install or yarn install
