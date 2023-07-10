@@ -1,6 +1,6 @@
 ### Instalación y Configuración
 
-- Clona el repository
+- Clona el repositorio
 
 ```
 git clone https://github.com/LJMartinez07/rnc-service.git
