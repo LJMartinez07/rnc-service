@@ -41,8 +41,7 @@ query = {
     query: {"estado": "ACTIVO"}
     projection: {"rnc": 1, "nombre_comercial": 1 }
 }
-
- GET / https://rnc.luismtnez.com/api/v2/entities
+GET / https://rnc.luismtnez.com/api/v2/entities
 ```
 
 NOTA: req.query.projection y req.query.query Deben de ser un JSON valido.
