@@ -29,7 +29,7 @@ MONGOLAB_BROWN_URI=mongodb://127.0.0.1:27017/rnc
 - Demo API
 
 ```
- GET / https://rnc.luismtnez.com/api/entities/:el_rnc_a_verificar
+ GET / https://rnc.luismtnez.com/api/v2/entities/:el_rnc_a_verificar
 ```
 
 Lista todos los RNC en la version 2 de la API
